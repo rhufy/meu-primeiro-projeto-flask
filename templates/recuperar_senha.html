@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<h2>Redefinir Senha</h2>
+<form method="POST">
+  <label for="email">Digite o seu email:</label>
+  <input type="email" name="email"  required>
+  <button type="submit">Enviar link de redefinição</button>
+</form>
+{% endblock %}

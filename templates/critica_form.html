@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Criar Crítica{% endblock %}
+
+{% block conteudo %}
+  <h1>Criar Crítica de Jogo</h1>
+
+  <form method="POST" enctype="multipart/form-data">
+    <label for="jogo">Nome do Jogo:</label>
+    <input type="text" name="jogo" id="jogo" required><br>
+
+    <label for="titulo">Título da Crítica:</label>
+    <input type="text" name="titulo" id="titulo" required><br>
+
+    <label for="texto">Texto da Crítica:</label>
+    <textarea name="texto" id="texto" rows="4" required></textarea><br>
+
+    <label for="imagem">Imagem do Jogo:</label>
+    <input type="file" name="imagem" id="imagem" accept="image/*" required><br>
+
+    <button type="submit">Criar Crítica</button>
+  </form>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<div class="container-erro">
+    <h1>404</h1>
+    <p>Ops! Página não encontrada.</p>
+    <a href="{{ url_for('usuarios_bp.home') }}" class="btn-retorno">Voltar para o início</a>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<h1>Painel de Administração</h1>
+
+<!-- Resumo Rápido -->
+<div>
+    <h2>Resumo</h2>
+    <ul>
+        <li>Total de usuários: {{ usuarios | length }}</li>
+        <li>Bloqueados: {{ usuarios | selectattr('is_locked') | list | length }}</li>
+    </ul>
+</div>
+
+<!-- Tabela de Usuários -->
+<div>
+    <h2>Usuários</h2>
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome de Usuário</th>
+                <th>Status</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.id }}</td>
+                <td>{{ usuario.nome_usuario }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <strong>Críticas</strong>
+                            <ul>
+                                {% for critica in usuario.criticas %}
+                                    <li>
+                                        ID: {{ critica.id }} - {{ critica.titulo }}
+                                        <a href="{{ url_for('admin_bp.excluir_critica', critica_id=critica.id) }}">Excluir Crítica</a>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <p>Nenhuma crítica encontrada!!!</p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+
+                <td>
+                    <ul>
+                        <li>
+                            <strong>Comentários</strong>
+                            <ul>
+                                {% for comentario in usuario.comentarios %}
+                                    <li>
+                                        ID: {{ comentario.id }} - {{ comentario.comentario[:30] }}
+                                        <a href="{{ url_for('admin_bp.excluir_comentario', comentario_id=comentario.id) }}">Excluir Comentário</a>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <p>Nenhum comentário encontrado</p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+
+                <td>
+                    {% if usuario.is_locked %}
+                        <strong style="color:red;">BLOQUEADO</strong>
+                    {% else %}
+                        <span style="color:green;">ATIVO</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if usuario.is_locked %}
+                        <a href="{{ url_for('admin_bp.desbloquear_usuario', user_id=usuario.id) }}">Desbloquear</a>
+                    {% else %}
+                        <a href="{{ url_for('admin_bp.bloquear_usuario', user_id=usuario.id) }}">Bloquear</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Links -->
+<div style="margin-top: 20px;">
+    <a href="{{ url_for('usuarios_bp.home') }}">🏠 Voltar para o site</a> |
+    <a href="{{ url_for('usuarios_bp.logout') }}">🚪 Logout</a>
+</div>
+
+{% endblock %}

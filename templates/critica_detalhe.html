@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Críticas
+{% endblock %}
+
+{% block conteudo %}
+<section id="critica-jogo" class="critica-jogo my-5">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <h2>Crítica ao jogo: {{ critica.jogo }}</h2>
+              <p>{{ critica.texto }}{% if critica.texto|length > 500 %}{% endif %}</p>
+                <h3> Crítica criada por {{ critica.usuario.perfil.nome }}</h3>
+            </div>
+            <div class="col-md-6">
+              <img src="{{ url_for('static', filename='img/' ~ critica.imagem) }}" alt="{{ critica.jogo }}" class="img-fluid rounded">
+            </div>
+          </div>
+        </div>
+      </section>
+<h3>Deixe um comentário</h3>
+<form method="POST" class="mt-4">
+  <div class="mb-3">
+    <label for="comentario" class="form-label">Deixe seu comentário:</label>
+    <textarea class="form-control" id="comentario" name="comentario" rows="3" placeholder="Escreva aqui..." required></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Comentar</button>
+</form>
+
+
+<h2>Comentários</h2>
+
+{% if comentarios %}
+<ul class="list-group">
+  {% for comentario in comentarios %}
+    <li class="list-group-item">
+      <strong>{{ comentario.usuario.perfil.nome }}:</strong>
+      {{ comentario.comentario }} <br>
+      <small class="text-muted">{{ comentario.data_criacao.strftime('%d/%m/%Y %H:%M') }}</small>
+    </li>
+  {% endfor %}
+</ul>
+
+{% else %}
+  <p>Sem comentários ainda.</p>
+{% endif %}
+
+{% endblock %}

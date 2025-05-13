@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Início - Blog Gamer{% endblock %}
+
+{% block conteudo %}
+  <h1>Bem-vindo ao Blog Gamer!</h1>
+  <p>Aqui você encontra as últimas novidades do mundo gamer.</p>
+  <a href="{{ url_for('usuarios_bp.exibir_critica') }}" class="btn btn-primary">Ver Críticas</a>
+
+  {% if criticas %}
+    {% for critica in criticas %}
+      <section id="critica-jogo" class="selecao-gamer">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <h2>Crítica ao jogo: {{ critica.jogo }}</h2>
+              <p>{{ critica.texto[:500] }}{% if critica.texto|length > 500 %}...{% endif %}</p>
+              <a href="{{ url_for('usuarios_bp.exibir_critica_detalhe', id=critica.id) }}" class="btn btn-sm btn-outline-primary">Ler mais</a>
+            </div>
+            <div class="col-md-6">
+              <img src="{{ url_for('static', filename='img/' ~ critica.imagem) }}" alt="{{ critica.jogo }}" class="img-fluid rounded">
+            </div>
+          </div>
+        </div>
+      </section>
+    {% endfor %}
+  {% else %}
+    <p class="mt-4">Nenhuma crítica publicada ainda. Seja o primeiro a postar!</p>
+  {% endif %}
+{% endblock %}
+

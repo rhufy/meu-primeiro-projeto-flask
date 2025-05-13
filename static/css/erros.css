@@ -1,0 +1,56 @@
+/* Fonte pixelada opcional: baixe e use uma se quiser */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+    color: #fff;
+    font-family: 'Press Start 2P', monospace;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.container-erro {
+    padding: 100px 20px;
+}
+
+h1 {
+    font-size: 6rem;
+    color: #ff004f;
+    animation: glow 1.5s infinite alternate;
+}
+
+p {
+    font-size: 1.2rem;
+    color: #00ffd5;
+    margin-top: 20px;
+}
+
+.btn-retorno {
+    margin-top: 30px;
+    padding: 12px 25px;
+    background-color: #00ffd5;
+    border: none;
+    border-radius: 10px;
+    color: #000;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-retorno:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #00ffd5;
+}
+
+/* Animação de brilho */
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #ff004f, 0 0 20px #ff004f;
+    }
+    to {
+        text-shadow: 0 0 20px #ff004f, 0 0 30px #ff004f;
+    }
+}

@@ -1,0 +1,84 @@
+ html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+body {
+  background-image: url("../img/fundo_gamer.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+body {
+  color: white;
+}
+.text-box {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 1rem;
+  border-radius: 8px;
+  color: white;
+}
+/* secçao de critica ao jogo parte da pagina home*/
+/* Seção de crítica ao jogo */
+#critica-jogo {
+    padding: 50px 0; /* Espaço em cima e embaixo da seção */
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo com transparência para destacar o conteúdo */
+    color: white; /* Cor do texto */
+}
+
+#critica-jogo h2 {
+    font-size: 2rem; /* Tamanho do título */
+    margin-bottom: 1rem; /* Espaço abaixo do título */
+    font-weight: bold; /* Deixa o título mais forte */
+}
+
+#critica-jogo p {
+    font-size: 1.1rem; /* Tamanho da fonte do parágrafo */
+    line-height: 1.6; /* Distância entre as linhas do texto */
+    margin-bottom: 2rem; /* Espaço abaixo do parágrafo */
+}
+
+#critica-jogo img {
+    max-width: 100%; /* A imagem vai ocupar a largura máxima da coluna */
+    height: auto; /* A altura da imagem vai se ajustar automaticamente */
+    border-radius: 8px; /* Bordas arredondadas na imagem */
+}
+
+@media (max-width: 767px) {
+    #critica-jogo .row {
+        text-align: center; /* Alinha tudo no centro para telas pequenas */
+    }
+}
+.selecao-gamer {
+  background-color: #0d0d0d;
+  color: #00ffff;
+  font-family: 'Orbitron', sans-serif;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 15px #00ffff;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.retro-navbar {
+  background-color: #000;
+  color: #f5d300;
+  font-family: 'Press Start 2P', cursive;
+  border-bottom: 4px solid #f5d300;
+  padding: 15px;
+}
+
+.retro-navbar a {
+  color: #f5d300;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+.retro-navbar a:hover {
+  background-color: #f5d300;
+  color: #000;
+  padding: 5px;
+  border-radius: 4px;
+  transition: 0.2s ease-in-out;
+}

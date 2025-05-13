@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<h1>Usuários</h1>
+<ul>
+    {% for usuario in usuarios %}
+        <li>
+            {{ usuario.nome_usuario }}
+            {% if usuario.is_locked %}
+                <strong style="color:red;">[BLOQUEADO]</strong>
+                <a href="{{ url_for('admin_bp.desbloquear_usuario', user_id=usuario.id) }}">[DESBLOQUEAR]</a>
+            {% else %}
+                <span style="color:green;">[ATIVO]</span>
+                <a href="{{ url_for('admin_bp.bloquear_usuario', user_id=usuario.id) }}">[BLOQUEAR]</a>
+            {% endif %}
+
+        </li>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('usuarios_bp.profile') }}">VOLTAR</a>
+{% endblock %}

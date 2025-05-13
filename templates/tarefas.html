@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<h2>Suas Tarefas</h2>
+
+<form method="POST">
+    <input type="text" name="titulo" placeholder="Nova Tarefa">
+    <button type="submit">Adicionar</button>
+</form>
+<ul>
+    {% for tarefa in tarefas %}
+    <Li>{{ tarefa.titulo }} - Criada em {{ tarefa.data_criacao }}</Li>
+    <a href="{{ url_for('usuarios_bp.excluir', tarefa_id=tarefa.id) }}"><button type="submit">Excluir</button> </a>
+    <a href="{{ url_for('usuarios_bp.editar', tarefa_id=tarefa.id) }}"><button type="submit">editar</button> </a>
+    {% endfor %}
+</ul>
+<nav>
+    <a href="{{ url_for('usuarios_bp.profile') }}">Area de perfil </a>
+    <a href="{{ url_for('usuarios_bp.logout') }}">saida </a>
+</nav>
+{% endblock%}

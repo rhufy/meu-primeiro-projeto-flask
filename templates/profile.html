@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow p-4">
+        <h2 class="text-center mb-4">Perfil de {{ current_user.nome_usuario }}</h2>
+        <form method="POST" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="nome" class="form-label">Nome:</label>
+            <input type="text" class="form-control" id="nome" name="nome" value="{{ perfil.nome if perfil else '' }}">
+          </div>
+          <div class="mb-3">
+            <label for="conteudo" class="form-label">Bio:</label>
+            <textarea class="form-control" id="conteudo" name="conteudo" rows="4">{{ perfil.bio if perfil else '' }}</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="foto" class="form-label">Foto para perfil:</label>
+            <input class="form-control" type="file" id="foto" name="foto">
+          </div>
+          <button type="submit" class="btn btn-primary w-100">
+            {% if perfil %}Atualizar{% else %}Criar{% endif %} Perfil
+          </button>
+        </form>
+
+        {% if perfil and perfil.foto %}
+        <div class="text-center mt-4">
+          <h5>Foto de perfil:</h5>
+          <img src="{{ url_for('static', filename=perfil.foto) }}" alt="Foto de perfil" class="rounded-circle shadow" width="150">
+        </div>
+        {% endif %}
+
+        <hr class="my-4">
+
+        <nav class="d-flex flex-wrap justify-content-center gap-3">
+          <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('usuarios_bp.criar_critica') }}">Criar crítica</a>
+          <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('usuarios_bp.tarefas') }}">Voltar para Tarefas</a>
+          <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('admin_bp.listar_usuarios') }}">Lista de usuários</a>
+          {% if current_user.is_authenticated and current_user.is_admin %}
+          <a class="btn btn-outline-danger btn-sm" href="{{ url_for('admin_bp.painel_admin') }}">Painel Admin</a>
+          {% endif %}
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

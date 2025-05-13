@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1 class="display-4 text-warning">403</h1>
+    <p class="lead">Acesso negado. Você não tem permissão para ver esta página.</p>
+    <a href="{{ url_for('usuarios_bp.profile') }}" class="btn btn-secondary">Voltar ao perfil</a>
+</div>
+{% endblock %}
+

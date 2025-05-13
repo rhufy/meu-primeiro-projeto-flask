@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+  <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+    <h3 class="text-center mb-4">Entrar</h3>
+    <form action="{{ url_for('usuarios_bp.autenticar') }}" method="POST">
+      <div class="mb-3">
+        <label for="usuario" class="form-label">Usuário</label>
+        <input type="text" class="form-control" id="usuario" name="usuario" required>
+      </div>
+      <div class="mb-3">
+        <label for="senha" class="form-label">Senha</label>
+        <input type="password" class="form-control" id="senha" name="senha" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Entrar</button>
+    </form>
+    <div class="text-center mt-3">
+      <a href="{{ url_for('usuarios_bp.recuperar_senha') }}">Esqueci minha senha</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
