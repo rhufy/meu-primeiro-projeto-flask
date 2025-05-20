@@ -1,7 +1,7 @@
 # extensions.py
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
-from flask_mail import Mail
+#from flask_mail import Mail
 # admin_required
 from functools import wraps
 from flask import redirect, url_for, flash
@@ -9,7 +9,7 @@ from flask import redirect, url_for, flash
 #extensoes padrao
 db = SQLAlchemy()
 login_manager = LoginManager()
-mail = Mail()
+#mail = Mail()
 
 
 # admin_required

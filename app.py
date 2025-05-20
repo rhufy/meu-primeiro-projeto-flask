@@ -2,7 +2,7 @@ from flask import Flask, redirect, render_template
 from flask_migrate import Migrate
 from flask_talisman import Talisman
 from itsdangerous import URLSafeTimedSerializer
-from extensions import db, login_manager, mail
+from extensions import db, login_manager#, mail
 from usuarios_bp.routes import usuarios_bp
 from usuarios_bp.database import User
 from admin_bp.routes import admin_bp
@@ -38,7 +38,7 @@ def create_app():
     Talisman(app, content_security_policy=csp, force_https=True)
 
     db.init_app(app)
-    mail.init_app(app)
+    #mail.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'usuarios_bp.login'
 
