@@ -1,7 +1,7 @@
 from flask import redirect, request, render_template, url_for, Blueprint, flash
 from flask_login import login_user, login_required, current_user, logout_user
 from usuarios_bp.database import User, Profile, Task, Critica, Comentario
-from extensions import mail, db
+from extensions import db #, mail
 from config import Config
 from itsdangerous import URLSafeTimedSerializer
 from werkzeug.utils import secure_filename
@@ -60,7 +60,7 @@ def autenticar():
     return redirect(url_for('usuarios_bp.login'))  # Volta para a página de login
 
 
-@usuarios_bp.route('/recuperar_senha', methods=['GET', 'POST'])
+'''@usuarios_bp.route('/recuperar_senha', methods=['GET', 'POST'])
 def recuperar_senha():
     s = get_serializer()
     if request.method == 'POST':
@@ -103,7 +103,7 @@ def resetar_senha(token):
             db.session.commit()
             flash("senha redefinida com sucesso , faca login ", "success")
             return redirect(url_for("usuarios_bp.login"))
-    return render_template("resetar_senha.html")
+    return render_template("resetar_senha.html")'''
 
 
 @usuarios_bp.route('/cadastro', methods=['GET', 'POST'])
