@@ -35,7 +35,7 @@
 
         <nav class="d-flex flex-wrap justify-content-center gap-3">
           <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('usuarios_bp.criar_critica') }}">Criar crítica</a>
-          <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('usuarios_bp.tarefas') }}">Voltar para Tarefas</a>
+          <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('usuarios_bp.tarefas') }}">Ir para Tarefas</a>
           <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('admin_bp.listar_usuarios') }}">Lista de usuários</a>
           {% if current_user.is_authenticated and current_user.is_admin %}
           <a class="btn btn-outline-danger btn-sm" href="{{ url_for('admin_bp.painel_admin') }}">Painel Admin</a>

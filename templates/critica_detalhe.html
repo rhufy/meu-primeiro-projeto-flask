@@ -20,7 +20,7 @@ Críticas
         </div>
       </section>
 <h3>Deixe um comentário</h3>
-<form method="POST" class="mt-4">
+<form method="POST" action="{{ url_for('usuarios_bp.criar_comentario', id=critica.id) }}" class="mt-4">
   <div class="mb-3">
     <label for="comentario" class="form-label">Deixe seu comentário:</label>
     <textarea class="form-control" id="comentario" name="comentario" rows="3" placeholder="Escreva aqui..." required></textarea>

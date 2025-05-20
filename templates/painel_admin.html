@@ -1,98 +1,97 @@
 {% extends 'base.html' %}
 
 {% block conteudo %}
-<h1>Painel de Administração</h1>
+<div class="container my-5">
+    <h1 class="text-center mb-4">Painel de Administração</h1>
 
-<!-- Resumo Rápido -->
-<div>
-    <h2>Resumo</h2>
-    <ul>
-        <li>Total de usuários: {{ usuarios | length }}</li>
-        <li>Bloqueados: {{ usuarios | selectattr('is_locked') | list | length }}</li>
-    </ul>
-</div>
+    <!-- Resumo Rápido -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0">Resumo</h2>
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Total de usuários: {{ usuarios | length }}</li>
+                <li class="list-group-item text-danger">Bloqueados: {{ usuarios | selectattr('is_locked') | list | length }}</li>
+            </ul>
+        </div>
+    </div>
 
-<!-- Tabela de Usuários -->
-<div>
-    <h2>Usuários</h2>
-    <table border="1" cellpadding="5">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome de Usuário</th>
-                <th>Status</th>
-                <th>Ação</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for usuario in usuarios %}
-            <tr>
-                <td>{{ usuario.id }}</td>
-                <td>{{ usuario.nome_usuario }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <strong>Críticas</strong>
-                            <ul>
+    <!-- Tabela de Usuários -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="h5 mb-0">Usuários</h2>
+        </div>
+        <div class="card-body table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome de Usuário</th>
+                        <th>Críticas</th>
+                        <th>Comentários</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.nome_usuario }}</td>
+                        <td>
+                            <ul class="list-unstyled mb-0">
                                 {% for critica in usuario.criticas %}
                                     <li>
-                                        ID: {{ critica.id }} - {{ critica.titulo }}
-                                        <a href="{{ url_for('admin_bp.excluir_critica', critica_id=critica.id) }}">Excluir Crítica</a>
+                                        <small>ID: {{ critica.id }}</small><br>
+                                        <strong>{{ critica.titulo }}</strong><br>
+                                        <a class="text-danger" href="{{ url_for('admin_bp.excluir_critica', critica_id=critica.id) }}">Excluir</a>
                                     </li>
                                 {% else %}
-                                    <li>
-                                        <p>Nenhuma crítica encontrada!!!</p>
-                                    </li>
+                                    <li class="text-muted">Nenhuma crítica</li>
                                 {% endfor %}
                             </ul>
-                        </li>
-                    </ul>
-                </td>
-
-                <td>
-                    <ul>
-                        <li>
-                            <strong>Comentários</strong>
-                            <ul>
+                        </td>
+                        <td>
+                            <ul class="list-unstyled mb-0">
                                 {% for comentario in usuario.comentarios %}
                                     <li>
-                                        ID: {{ comentario.id }} - {{ comentario.comentario[:30] }}
-                                        <a href="{{ url_for('admin_bp.excluir_comentario', comentario_id=comentario.id) }}">Excluir Comentário</a>
+                                        <small>ID: {{ comentario.id }}</small><br>
+                                        "{{ comentario.comentario[:30] }}..."<br>
+                                        <a class="text-danger" href="{{ url_for('admin_bp.excluir_comentario', comentario_id=comentario.id) }}">Excluir</a>
                                     </li>
                                 {% else %}
-                                    <li>
-                                        <p>Nenhum comentário encontrado</p>
-                                    </li>
+                                    <li class="text-muted">Nenhum comentário</li>
                                 {% endfor %}
                             </ul>
-                        </li>
-                    </ul>
-                </td>
+                        </td>
+                        <td>
+                            {% if usuario.is_locked %}
+                                <span class="badge bg-danger">Bloqueado</span>
+                            {% else %}
+                                <span class="badge bg-success">Ativo</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if usuario.is_locked %}
+                                <a class="btn btn-sm btn-success" href="{{ url_for('admin_bp.desbloquear_usuario', user_id=usuario.id) }}">Desbloquear</a>
+                            {% else %}
+                                <a class="btn btn-sm btn-warning" href="{{ url_for('admin_bp.bloquear_usuario', user_id=usuario.id) }}">Bloquear</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-                <td>
-                    {% if usuario.is_locked %}
-                        <strong style="color:red;">BLOQUEADO</strong>
-                    {% else %}
-                        <span style="color:green;">ATIVO</span>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if usuario.is_locked %}
-                        <a href="{{ url_for('admin_bp.desbloquear_usuario', user_id=usuario.id) }}">Desbloquear</a>
-                    {% else %}
-                        <a href="{{ url_for('admin_bp.bloquear_usuario', user_id=usuario.id) }}">Bloquear</a>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- Links -->
+    <div class="mt-4 text-center">
+        <a class="btn btn-outline-primary me-2" href="{{ url_for('usuarios_bp.home') }}">🏠 Voltar para o site</a>
+        <a class="btn btn-outline-danger" href="{{ url_for('usuarios_bp.logout') }}">🚪 Logout</a>
+    </div>
 </div>
 
-<!-- Links -->
-<div style="margin-top: 20px;">
-    <a href="{{ url_for('usuarios_bp.home') }}">🏠 Voltar para o site</a> |
-    <a href="{{ url_for('usuarios_bp.logout') }}">🚪 Logout</a>
-</div>
 
 {% endblock %}

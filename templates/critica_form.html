@@ -3,22 +3,36 @@
 {% block title %}Criar Crítica{% endblock %}
 
 {% block conteudo %}
-  <h1>Criar Crítica de Jogo</h1>
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card p-4 shadow-lg rounded-4" style="width: 100%; max-width: 600px;">
+    <h2 class="text-center mb-4">Criar Crítica de Jogo</h2>
 
-  <form method="POST" enctype="multipart/form-data">
-    <label for="jogo">Nome do Jogo:</label>
-    <input type="text" name="jogo" id="jogo" required><br>
+    <form method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="jogo" class="form-label">Nome do Jogo:</label>
+        <input type="text" name="jogo" id="jogo" class="form-control" required>
+      </div>
 
-    <label for="titulo">Título da Crítica:</label>
-    <input type="text" name="titulo" id="titulo" required><br>
+      <div class="mb-3">
+        <label for="titulo" class="form-label">Título da Crítica:</label>
+        <input type="text" name="titulo" id="titulo" class="form-control" required>
+      </div>
 
-    <label for="texto">Texto da Crítica:</label>
-    <textarea name="texto" id="texto" rows="4" required></textarea><br>
+      <div class="mb-3">
+        <label for="texto" class="form-label">Texto da Crítica:</label>
+        <textarea name="texto" id="texto" rows="5" class="form-control" required></textarea>
+      </div>
 
-    <label for="imagem">Imagem do Jogo:</label>
-    <input type="file" name="imagem" id="imagem" accept="image/*" required><br>
+      <div class="mb-4">
+        <label for="imagem" class="form-label">Imagem do Jogo:</label>
+        <input type="file" name="imagem" id="imagem" class="form-control" accept="image/*" required>
+      </div>
 
-    <button type="submit">Criar Crítica</button>
-  </form>
+      <div class="d-grid">
+        <button type="submit" class="btn btn-success btn-lg rounded-pill">Criar Crítica</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 {% endblock %}

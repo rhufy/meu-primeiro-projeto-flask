@@ -15,12 +15,12 @@ def create_app():
     app.config.from_object(Config)  # Carrega as configurações do arquivo config.py
 
     # Defina o ambiente com base em uma variável de ambiente ou use um valor padrão
-    app.config.from_object(DevelopmentConfig)  # Por padrão, usa a configuração de desenvolvimento
+    #app.config.from_object(DevelopmentConfig)  # Por padrão, usa a configuração de desenvolvimento
 
     # Alternativamente, você pode configurar o ambiente manualmente:
     # app.config.from_object(TestingConfig)  # Para testes
-    # app.config.from_object(ProductionConfig)  # Para produção
-    app.config['MAIL_SUPPRESS_SEND'] = True  # evita que email real seja enviado . usar em testes ou desenvolvimento
+    app.config.from_object(ProductionConfig)  # Para produção
+    #app.config['MAIL_SUPPRESS_SEND'] = True  # evita que email real seja enviado . usar em testes ou desenvolvimento
     # Inicializando o URLSafeTimedSerializer
     s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
@@ -32,10 +32,10 @@ def create_app():
         'style-src': ["'self'", 'https://cdn.jsdelivr.net', 'https://fonts.googleapis.com'],
         'script-src': ["'self'", 'https://cdn.jsdelivr.net', 'https://cdnjs.cloudflare.com'],
         'font-src': ["'self'", 'https://fonts.gstatic.com'],
-        'img-src': ["'self'", 'data:', '*'],  # <- LIBERA TUDO TEMPORARIAMENTE
+        'img-src': ["'self'", 'data:', 'https://exemplo.cdn.com'],  #
     }
 
-    Talisman(app, content_security_policy=csp, force_https=False)
+    Talisman(app, content_security_policy=csp, force_https=True)
 
     db.init_app(app)
     mail.init_app(app)
