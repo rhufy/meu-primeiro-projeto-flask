@@ -2,25 +2,24 @@ from flask import Flask, redirect, render_template
 from flask_migrate import Migrate
 from flask_talisman import Talisman
 from itsdangerous import URLSafeTimedSerializer
-from extensions import db, login_manager#, mail
+from extensions import db, login_manager, mail
 from usuarios_bp.routes import usuarios_bp
 from usuarios_bp.database import User
 from admin_bp.routes import admin_bp
-from config import Config,  ProductionConfig #, TestingConfig DevelopmentConfig,  # Importando a configuração
+from config import Config, DevelopmentConfig, ProductionConfig, TestingConfig
 
 
 def create_app():
     app = Flask(__name__)
     # Defina o ambiente com base em uma variável de ambiente ou use um valor padrão
-    #app.config.from_object(DevelopmentConfig)  # Por padrão, usa a configuração de desenvolvimento
+    app.config.from_object(DevelopmentConfig)  # Por padrão, usa a configuração de desenvolvimento
 
     # Alternativamente, você pode configurar o ambiente manualmente:
-    # app.config.from_object(TestingConfig)  # Para testes
-    app.config.from_object(ProductionConfig)  # Para produção
+    #app.config.from_object(TestingConfig)  # Para testes
+    #app.config.from_object(ProductionConfig)  # Para produção
     app.config.from_object(Config)  # Carrega as configurações do arquivo config.py
 
-
-    #app.config['MAIL_SUPPRESS_SEND'] = True  # evita que email real seja enviado . usar em testes ou desenvolvimento
+    app.config['MAIL_SUPPRESS_SEND'] = True  # evita que email real seja enviado . usar em testes ou desenvolvimento
     # Inicializando o URLSafeTimedSerializer
     s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
@@ -32,19 +31,19 @@ def create_app():
         'style-src': ["'self'", 'https://cdn.jsdelivr.net', 'https://fonts.googleapis.com'],
         'script-src': ["'self'", 'https://cdn.jsdelivr.net', 'https://cdnjs.cloudflare.com'],
         'font-src': ["'self'", 'https://fonts.gstatic.com'],
-        'img-src': ["'self'", 'data:', 'https://exemplo.cdn.com'],  #
+        'img-src': ["'self'", 'data:', 'https://exemplo.cdn.com'],
     }
 
-    Talisman(app, content_security_policy=csp, force_https=True)
+    Talisman(app, content_security_policy=csp, force_https=False)#troque para True em produção
 
     db.init_app(app)
-    #mail.init_app(app)
+    mail.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'usuarios_bp.login'
 
     Migrate(app, db)
 
-    # Registra blueprints
+    # Registro de blueprints
     app.register_blueprint(usuarios_bp, url_prefix='/usuarios_bp')
     app.register_blueprint(admin_bp, url_prefix='/admin_bp')
 

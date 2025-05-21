@@ -4,9 +4,6 @@ from datetime import datetime
 from extensions import db
 
 
-
-# criando tabela User e metodos de verificar senha e armazenar<h2>OPÇÕES DO SITE</h2>
-
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     nome_usuario = db.Column(db.String(50), unique=True, nullable=False)
@@ -72,3 +69,6 @@ class Comentario(db.Model):
     #relaçao
     critica = db.relationship('Critica', back_populates='comentarios')
     usuario = db.relationship("User", back_populates='comentarios')
+<<<<<<< HEAD
+=======
+>>>>>>> 2d3921f (Estiliza página de tarefas com Bootstrap e centralização)

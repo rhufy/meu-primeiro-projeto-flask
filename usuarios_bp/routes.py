@@ -1,7 +1,7 @@
 from flask import redirect, request, render_template, url_for, Blueprint, flash
 from flask_login import login_user, login_required, current_user, logout_user
 from usuarios_bp.database import User, Profile, Task, Critica, Comentario
-from extensions import db #, mail
+from extensions import db, mail
 from config import Config
 from itsdangerous import URLSafeTimedSerializer
 from werkzeug.utils import secure_filename
@@ -10,7 +10,6 @@ import os
 usuarios_bp = Blueprint('usuarios_bp', __name__)
 
 
-# Crie uma função para inicializar o serializer se necessário
 def get_serializer():
     return URLSafeTimedSerializer(Config.SECRET_KEY)
 
@@ -18,7 +17,7 @@ def get_serializer():
 @usuarios_bp.route('/')
 def home():
     todas_criticas = Critica.query.order_by(
-        Critica.id.desc()).all()  # pega todas as críticas do banco o order_by eu coloquei para as criticas novas aparecerem na frente
+        Critica.id.desc()).all()
     return render_template('home.html', criticas=todas_criticas, error_page=True)
 
 
@@ -51,16 +50,16 @@ def autenticar():
         db.session.commit()
         return redirect(url_for('usuarios_bp.login'))
 
-    if usuario and usuario.verify_password(senha):  # Verifica se o usuário existe e se a senha está correta
+    if usuario and usuario.verify_password(senha):
         print(f'{usuario}encontrado')
-        login_user(usuario)  # Faz login do usuário na sessão
+        login_user(usuario)
         flash('Login realizado com sucesso!', 'success')
-        return redirect(url_for('usuarios_bp.profile'))  # Redireciona para a página do perfil
+        return redirect(url_for('usuarios_bp.profile'))
 
-    return redirect(url_for('usuarios_bp.login'))  # Volta para a página de login
+    return redirect(url_for('usuarios_bp.login'))
 
 
-'''@usuarios_bp.route('/recuperar_senha', methods=['GET', 'POST'])
+@usuarios_bp.route('/recuperar_senha', methods=['GET', 'POST'])
 def recuperar_senha():
     s = get_serializer()
     if request.method == 'POST':
@@ -85,7 +84,7 @@ def recuperar_senha():
 def resetar_senha(token):
     s = get_serializer()
     try:
-        user_id = s.loads(token, max_age=3600)  # token expira em 1 h
+        user_id = s.loads(token, max_age=3600)
     except Exception:
         flash("token invalido ou expirado", "danger")
         return redirect(url_for('usuarios_bp.recuperar_senha'))
@@ -99,11 +98,11 @@ def resetar_senha(token):
         if not nova_senha:
             flash("senha n pode ser vazia", "warning")
         else:
-            usuario.set_password(nova_senha)  # metodo que faz o hash na senha
+            usuario.set_password(nova_senha)
             db.session.commit()
             flash("senha redefinida com sucesso , faca login ", "success")
             return redirect(url_for("usuarios_bp.login"))
-    return render_template("resetar_senha.html")'''
+    return render_template("resetar_senha.html")
 
 
 @usuarios_bp.route('/cadastro', methods=['GET', 'POST'])
@@ -118,18 +117,14 @@ def cadastro():
             return redirect(url_for('usuarios_bp.cadastro'))
         usuario = User.query.filter_by(nome_usuario=nome_usuario).first()
 
-        if usuario:  # verificar se o usuario existe
+        if usuario:
             flash(f"{usuario} existe  va para a pagina de login", "info")
             return redirect(url_for('usuarios_bp.login'))
-        # dando o valor ao new_usuario
-        # Correção: Aplicar hash apenas se a senha não for None
 
         new_usuario = User(nome_usuario=nome_usuario, email=email, senha=senha)
 
-        # add usuario ao banco de dados
         db.session.add(new_usuario)
         db.session.commit()
-        # iniciando a sessao para ele
         if new_usuario:
             login_user(new_usuario)
             flash('cadastrado com sucesso', 'success')
@@ -156,7 +151,6 @@ def tarefas():
             db.session.commit()
             flash('nova tarefa adcionada com sucesso', 'success')
             return redirect(url_for('usuarios_bp.tarefas'))
-    # colocar fora do if para q em caso de get ele responda
     tarefas_usuario = Task.query.filter_by(user_id=current_user.id).all()
     return render_template('tarefas.html', tarefas=tarefas_usuario)
 
@@ -200,7 +194,6 @@ def profile():
         foto_arquivo = request.files.get('foto')
 
         caminho = None
-        # <- garante que a variável exista
 
         if foto_arquivo and foto_arquivo.filename != '':
             caminho = f"img/{foto_arquivo.filename}"
@@ -216,7 +209,7 @@ def profile():
             if caminho:
                 perfil.foto = caminho
             flash("perfil atualizado com sucesso", "success")
-        else:  # novo perfil sendo criado
+        else:
             perfil = Profile(nome=nick, bio=bio, foto=caminho, usuario=current_user)
             db.session.add(perfil)
             flash("bio criada com sucesso", "success")
@@ -225,35 +218,28 @@ def profile():
         return redirect(url_for('usuarios_bp.profile'))
     if not perfil:
         flash("Você ainda não tem um perfil. Preencha as informações abaixo para criar um.", "info")
-        # perfil = Profile()  # cria um perfil em branco apenas para preencher o form
-    # print("Foto do perfil:", current_user.perfil.foto)
 
     return render_template('profile.html', perfil=perfil, usuario=current_user)
 
 
-# Evite usar o mesmo nome da função e do dicionário
-
-
 @usuarios_bp.route('/critica/', methods=['GET', 'POST'])
 def exibir_critica():
-    criticas = Critica.query.all()  # vai buscar todas as criticas para o select
-    critica = None  # para n  quebrar o raciocinio
+    criticas = Critica.query.all()
+    critica = None
 
-    if request.method == "POST":  # cria a condiçao para entrada de dados do formulario html(input)
+    if request.method == "POST":
         nome_jogo = request.form.get("jogo")
-        if nome_jogo:  # se capturou o nome do  jogo
+        if nome_jogo:
             critica = Critica.query.filter_by(jogo=nome_jogo).first()
             if not critica:
                 flash("critica n encontrada", "info")
     return render_template("critica.html", criticas=criticas, critica=critica)
 
 
-# Configurações de upload de imagem
-UPLOAD_FOLDER = 'static/img'  # Pasta onde as imagens serão armazenadas
+UPLOAD_FOLDER = 'static/img'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 
-# Verifica se o arquivo tem a extensão permitida
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -266,19 +252,15 @@ def criar_critica():
         texto = request.form['texto']
         imagem = request.files['imagem']
 
-        # Valida o arquivo da imagem
         if imagem and allowed_file(imagem.filename):
-            # Salva a imagem com um nome seguro
             filename = secure_filename(imagem.filename)
             imagem.save(os.path.join(UPLOAD_FOLDER, filename))
-
-            # Cria a crítica no banco de dados
             nova_critica = Critica(
                 jogo=jogo,
                 titulo=titulo,
                 texto=texto,
                 imagem=filename,
-                user_id=current_user.id  # Supondo que você tem Flask-Login configurado
+                user_id=current_user.id
             )
 
             db.session.add(nova_critica)

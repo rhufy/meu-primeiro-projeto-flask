@@ -12,7 +12,7 @@ def bloquear_usuario(user_id):
         flash("Você não pode bloquear a si mesmo.", "danger")
         return redirect(url_for('admin_bp.painel_admin'))
     if usuario:
-        usuario.is_locked = True  # ou qualquer atributo que você use para indicar bloqueio
+        usuario.is_locked = True
         db.session.commit()
         flash(f"Usuário {usuario.nome_usuario} foi bloqueado.", "success")
     else:

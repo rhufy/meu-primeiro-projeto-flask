@@ -1,21 +1,38 @@
 {% extends 'base.html' %}
 
 {% block conteudo %}
-<h2>Suas Tarefas</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
 
-<form method="POST">
-    <input type="text" name="titulo" placeholder="Nova Tarefa">
-    <button type="submit">Adicionar</button>
-</form>
-<ul>
-    {% for tarefa in tarefas %}
-    <Li>{{ tarefa.titulo }} - Criada em {{ tarefa.data_criacao }}</Li>
-    <a href="{{ url_for('usuarios_bp.excluir', tarefa_id=tarefa.id) }}"><button type="submit">Excluir</button> </a>
-    <a href="{{ url_for('usuarios_bp.editar', tarefa_id=tarefa.id) }}"><button type="submit">editar</button> </a>
-    {% endfor %}
-</ul>
-<nav>
-    <a href="{{ url_for('usuarios_bp.profile') }}">Area de perfil </a>
-    <a href="{{ url_for('usuarios_bp.logout') }}">saida </a>
-</nav>
-{% endblock%}
+            <h2 class="text-center mb-4">Suas Tarefas</h2>
+
+            <form method="POST" class="d-flex mb-4">
+                <input type="text" name="titulo" class="form-control me-2" placeholder="Nova Tarefa">
+                <button type="submit" class="btn btn-primary">Adicionar</button>
+            </form>
+
+            <ul class="list-group mb-4">
+                {% for tarefa in tarefas %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ tarefa.titulo }}</strong><br>
+                        <small class="text-muted">Criada em {{ tarefa.data_criacao }}</small>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('usuarios_bp.editar', tarefa_id=tarefa.id) }}" class="btn btn-sm btn-warning me-2">Editar</a>
+                        <a href="{{ url_for('usuarios_bp.excluir', tarefa_id=tarefa.id) }}" class="btn btn-sm btn-danger">Excluir</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <nav class="d-flex justify-content-between">
+                <a href="{{ url_for('usuarios_bp.profile') }}" class="btn btn-outline-secondary">Área de Perfil</a>
+                <a href="{{ url_for('usuarios_bp.logout') }}" class="btn btn-outline-danger">Sair</a>
+            </nav>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
