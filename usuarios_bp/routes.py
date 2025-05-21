@@ -28,9 +28,7 @@ def login():
 
 @usuarios_bp.route('/autenticar', methods=['POST'])
 def autenticar():
-    # login_user()
     nome_usuario = request.form.get('usuario')
-    # email = request.form.get('email')
     senha = request.form.get('senha')
     usuario = User.query.filter_by(nome_usuario=nome_usuario).first()
     if not usuario:
@@ -111,7 +109,7 @@ def cadastro():
         nome_usuario = request.form.get('usuario')
         email = request.form.get('email')
         senha = request.form.get('senha')
-        # garantindo q o usario n seja none
+
         if not nome_usuario or not senha or not email:
             flash('usuario ou senha n existe', 'danger')
             return redirect(url_for('usuarios_bp.cadastro'))
@@ -125,6 +123,7 @@ def cadastro():
 
         db.session.add(new_usuario)
         db.session.commit()
+
         if new_usuario:
             login_user(new_usuario)
             flash('cadastrado com sucesso', 'success')
@@ -151,6 +150,7 @@ def tarefas():
             db.session.commit()
             flash('nova tarefa adcionada com sucesso', 'success')
             return redirect(url_for('usuarios_bp.tarefas'))
+
     tarefas_usuario = Task.query.filter_by(user_id=current_user.id).all()
     return render_template('tarefas.html', tarefas=tarefas_usuario)
 
@@ -203,7 +203,7 @@ def profile():
             flash("preencha todos os campos", "warning")
             return redirect(url_for("usuarios_bp.profile"))
 
-        if perfil:  # perfil já existente sendo atualizado
+        if perfil:
             perfil.nick = nick
             perfil.bio = bio
             if caminho:
@@ -255,6 +255,7 @@ def criar_critica():
         if imagem and allowed_file(imagem.filename):
             filename = secure_filename(imagem.filename)
             imagem.save(os.path.join(UPLOAD_FOLDER, filename))
+
             nova_critica = Critica(
                 jogo=jogo,
                 titulo=titulo,
