@@ -12,18 +12,17 @@ class Config:
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER')
 
-class DevelopmentConfig(Config):
+"""class DevelopmentConfig(Config):
     DEBUG = True
     # Banco de dados para desenvolvimento
     SQLALCHEMY_DATABASE_URI = 'sqlite:///meubanco.db'
 
 class TestingConfig(Config):
     # Banco de dados em memória para testes (não afeta o banco de dados real)
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'  # Banco de dados temporário em memória para testes
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'  # Banco de dados temporário em memória para testes"""
 
 class ProductionConfig(Config):
     DEBUG = False
     # Banco de dados para produção (use variáveis de ambiente para segurança)
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
-    if not SQLALCHEMY_DATABASE_URI:
-        raise ValueError("DATABASE_URL não configurado no ambiente de produção")
+

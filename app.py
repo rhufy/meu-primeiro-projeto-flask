@@ -6,20 +6,20 @@ from extensions import db, login_manager#, mail
 from usuarios_bp.routes import usuarios_bp
 from usuarios_bp.database import User
 from admin_bp.routes import admin_bp
-from config import Config, DevelopmentConfig, ProductionConfig, TestingConfig  # Importando a configuração
+from config import Config,  ProductionConfig #, TestingConfig DevelopmentConfig,  # Importando a configuração
 
 
 def create_app():
     app = Flask(__name__)
-
-    app.config.from_object(Config)  # Carrega as configurações do arquivo config.py
-
     # Defina o ambiente com base em uma variável de ambiente ou use um valor padrão
     #app.config.from_object(DevelopmentConfig)  # Por padrão, usa a configuração de desenvolvimento
 
     # Alternativamente, você pode configurar o ambiente manualmente:
     # app.config.from_object(TestingConfig)  # Para testes
     app.config.from_object(ProductionConfig)  # Para produção
+    app.config.from_object(Config)  # Carrega as configurações do arquivo config.py
+
+
     #app.config['MAIL_SUPPRESS_SEND'] = True  # evita que email real seja enviado . usar em testes ou desenvolvimento
     # Inicializando o URLSafeTimedSerializer
     s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
