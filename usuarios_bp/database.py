@@ -72,17 +72,3 @@ class Comentario(db.Model):
     #relaçao
     critica = db.relationship('Critica', back_populates='comentarios')
     usuario = db.relationship("User", back_populates='comentarios')
-"""from extensions import db
-from models import User  # ou ajuste o import conforme sua estrutura
-
-admin = User(
-    nome_usuario="admin",
-    senha="admin123",  # será automaticamente criptografada
-    email="admin@email.com",
-    is_admin=True
-)
-
-db.session.add(admin)
-db.session.commit()
-
-"""
